@@ -1,0 +1,153 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+    background: linear-gradient(270deg, #8DC3E7 0%, #91F0C6 100%); 
+    padding: 60px; 
+    background-attachment: fixed; 
+}
+
+body {
+    background-color: white; 
+    margin: 0;
+    padding-bottom: 40px; 
+}
+
+:-webkit-scrollbar {
+  display: none;
+}
+
+.nav-wrapper {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 40px; 
+    z-index: 10;
+   
+}
+
+.logo {
+    color: #000;
+    font-family: "Josefin Sans";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.logo-blue { 
+    color: #8DC4E6;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav li {
+    margin-left: 35px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #000;
+    font-family: Jaldi;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: #6795c7; 
+}
+
+.team-page-content {
+    max-width: 1200px;
+    margin: 0 auto; 
+    padding: 50px 40px; 
+    text-align: center; 
+}
+
+.team-header {
+    margin-bottom: 50px; 
+}
+
+.team-header h1 {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 42px;
+    font-weight: 400; 
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+.contact-section h2 {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 38px; 
+    font-weight: 400; 
+    color: #222; 
+    margin-bottom: 40px; 
+}
+
+.contact-columns {
+    display: flex; 
+    justify-content: center; 
+    gap: 150px; 
+    text-align: left; 
+}
+.contact-column {
+    text-align: center; 
+}
+contact-icon {
+    width: 60px;
+    height: 50px; 
+    object-fit: contain; 
+}
+
+.contact-column p {
+    font-family: Jaldi;
+    color: #333;
+    margin: 5px 0; 
+    padding: 0;
+}
+
+.contact-column a {
+    color: #0c0c0c; 
+    text-decoration: none;
+}
+.contact-column a:hover {
+    text-decoration: underline;
+}
+
+.site-footer {
+    font-family: Jaldi;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    font-size: 20px;    
+    gap: 15px; 
+
+}
+
+.footer-logo {
+    width: 35px;
+    height: 35px;
+}
