@@ -4,6 +4,8 @@
   box-sizing: border-box;
 }
 
+
+
 html {
     background: linear-gradient(270deg, #8DC3E7 0%, #91F0C6 100%);    /* Çerçevenin kalınlığı (30px) */
     padding: 60px; 
@@ -11,6 +13,7 @@ html {
 }
 
 body {
+  
     background-color: white; 
     margin: 0;
     padding-bottom: 40px; 
@@ -81,6 +84,7 @@ body {
 
 .hero {
   margin: 60px auto;
+  margin-right: 110px;
   width: 1162px;
   height: 760px;
   flex-shrink: 0;
@@ -101,7 +105,6 @@ body {
   overflow: hidden; 
   margin-left: -40px;
 }
-
 
 .hero-img h1 {
   position: absolute;
@@ -245,4 +248,136 @@ flex-shrink: 0;
   padding: 20px 30px;
 }
 
+.learn-more-wrapper {
+  display: flex;
+  justify-content: flex-end; 
+  margin-right: 15rem;
+  margin-top: 20px; 
+}
 
+#learn-more {
+  margin-left: 0;
+  display: inline-block;
+  background: #000;
+  color: #FFFAFA;
+
+font-family: Actor;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+padding: 5px 10px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+#learn-more:hover {
+  background-color: #6088a5;
+}
+
+.symptoms-section {
+  margin-top: 100px;
+  text-align: left;
+}
+
+.main-title {
+  margin-bottom: 40px;
+  margin-left: 100px;
+  color: #000;
+  font-family: Kanit;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.diagram-container {
+  position: relative;
+  width: 700px;
+  height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin: auto;
+}
+
+.central-image {
+  width: 358px;
+  height: 358px;
+  flex-shrink: 0;
+  object-fit: cover; 
+  z-index: 5; 
+}
+
+.circle {
+  position: absolute;
+  border-radius: 550px;
+  border: 2px solid rgba(0, 0, 0, 0.10);
+}
+
+.inner-circle {
+  width: 550px;
+  height: 534px;
+ z-index: 1;
+}
+
+.outer-circle {
+  width: 769px;
+  height: 747px;
+  z-index: 1;
+}
+
+.symptom-item {
+  position: absolute;
+  z-index: 10; 
+  max-width: 500px;
+}
+
+.symptom-item h3 {
+  color: #000;
+
+font-family: Kanit;
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+}
+        
+.symptom-item h3 .dot {
+width: 8px;
+height: 8px;
+background-color: rgba(0, 0, 0, 0.60);;
+border-radius: 50%;
+margin-left: 6px;
+}
+
+.symptom-item p {
+color: #000;
+text-align: left;
+font-family: Actor;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin: 0;
+}
+
+        
+.symptom-1 {
+top: 220px;
+left: -80px;
+}
+
+.symptom-2 {
+top: 240px;
+right: -225px;
+}
+
+.symptom-3 {
+bottom: 95px;
+left: 75px;
+}
