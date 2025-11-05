@@ -1,0 +1,248 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+    background: linear-gradient(270deg, #8DC3E7 0%, #91F0C6 100%);    /* Çerçevenin kalınlığı (30px) */
+    padding: 60px; 
+    background-attachment: fixed; 
+}
+
+body {
+    background-color: white; 
+    margin: 0;
+    padding-bottom: 40px; 
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-wrapper {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 40px; 
+    z-index: 10;
+   
+}
+
+.logo {
+    color: #000;
+    font-family: "Josefin Sans";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.logo-blue { 
+    color: #8DC4E6;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav li {
+    margin-left: 35px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #000;
+    font-family: Jaldi;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: #6795c7; 
+}
+
+.hero {
+  margin: 60px auto;
+  width: 1162px;
+  height: 760px;
+  flex-shrink: 0;
+  border-radius: 75px;
+  background: rgba(141, 195, 231, 0.47);
+  display: flex; 
+  align-items: center;
+  justify-content: center; 
+  gap: 30px; 
+}
+
+.hero-img img{
+  position: relative;
+  width: 600px;
+  height: 760px;
+  flex-shrink: 0;
+  border-radius: 75px;
+  overflow: hidden; 
+  margin-left: -40px;
+}
+
+
+.hero-img h1 {
+  position: absolute;
+  color: #FFF;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Kanit;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 149.65%;
+  margin: -700px 0 0 60px;
+  z-index: 1 ;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-right: auto;
+  max-width: 500px;
+}
+
+
+.hero-content h2 {
+  color: #000;
+font-family: Alice;
+font-size: 48px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.hero-content p {
+  color: #000;
+font-family: Actor;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 12px 24px;
+  margin-left: 130px;
+  background-color: #000;
+  text-decoration: none;
+  color: #FFFAFA;
+    font-family: Actor;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  width: fit-content;
+  transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #6088a5;
+}
+
+.info-header {
+  margin-left: 100px;
+}
+
+.info-header h1 {
+ color: #000;
+font-family: Kanit;
+font-size: 48px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.info-header p {
+ color: #000;
+font-family: Actor;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 70px;
+  gap: 50px;
+}
+
+.info-cards{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#info-card1, #info-card2, #info-card3 {
+    width: 604px;
+  height: 168px;
+  flex-shrink: 0;
+  border-radius: 35px;
+  background: rgba(145, 240, 198, 0.42);
+  text-align: left;
+  padding: 20px 30px;
+}
+
+#info-card1 h2, #info-card2 h2, #info-card3 h2, #info-card4 h2 {
+ color: #000;
+
+font-family: Kanit;
+font-size: 32px;
+font-style: normal;
+font-weight: 400;
+line-height: normal; 
+}
+
+#info-card1 p, #info-card2 p, #info-card3 p, #info-card4 p {
+color: #000;
+
+font-family: Actor;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.img-cards{
+  display: flex;
+  flex-direction:column;
+  gap: 20px;
+}
+
+#info-card4 {
+  width: 402px;
+height: 149px;
+flex-shrink: 0;
+  border-radius: 35px;
+  background: rgba(145, 240, 198, 0.42);
+    text-align: left;
+  padding: 20px 30px;
+}
+
+

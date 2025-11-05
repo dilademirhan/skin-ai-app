@@ -6,14 +6,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="styles/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Actor&family=Jaldi:wght@400;700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Actor&family=Jaldi:wght@400;700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Actor&family=Alice&family=Jaldi:wght@400;700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
 </head>
 
 <body>
+       <div class="nav-wrapper">
+        <nav class="main-nav">
+           <div class="logo">
+                Detect<span class="logo-blue">Disease</span>
+           </div>
+           <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="detection.html">Detection Page</a></li>
+                <li><a href="diseases.html">Diseases</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="team.html">Our Team</a></li>
+           </ul>
+        </nav>
+    </div>
     <header>
-        <h1></h1>
+        <div class="hero">
+            <div class="hero-img">
+                <img src="/images/index-hero.png" alt="">
+                <h1>Empowering Awareness <br>Through AI</h1>
+            </div>
+            <div class="hero-content">
+            <h2>Early Diagnosis <br> saves lives.</h2>
+            <p>When skin cancer is detected early, the five-year survival rate is typically above 95%.</p>
+            <a href="detection.html" class="cta-button">DETECT NOW</a>
+            </div>
+        </div>
     </header>
     <main>
-        <p></p>
+        <div class="info-header">
+            <h1>What We Detect?</h1>
+            <p>Powered by AI, our system detects seven major types of skin cancer with precision.</p>
+        </div>
+        <div class="info">
+            <div class="info-cards">
+                <div class="info-card" id="info-card1">
+                    <h2>1. Melanocytic nevi</h2>
+                    <p>Melanocytic nevi, commonly known as moles</p>
+                </div>
+                <div class="info-card" id="info-card2">
+                    <h2>2. Melanoma</h2>
+                    <p>Melanoma is a serious form of skin cancer that develops in the melanocytes</p>
+                </div>
+                <div class="info-card" id="info-card3">
+                    <h2>3. Benign Keratosis-like lesions</h2>
+                    <p>Benign Keratosis-like lesions are non-cancerous growths on the skin that resemble melanoma.</p>
+                </div>
+            </div>
+            <div class="img-cards">
+                <div><img src="/images/hand-img.png" alt=""></div>
+                <div class="info-card" id="info-card4">
+                    <h2>4. Basal cell carcinoma</h2>
+                    <p>Basal cell carcinoma (BCC) is the most common type of skin cancer</p>
+                </div>
+            </div>
+        </div>
+        <a href="diseases.html"> <button>Learn More</button></a>
+
+
     </main>
 </body>
 </html>
