@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diseases</title>
+    <title>Detection Page</title>
     <link rel="stylesheet" href="styles/detection.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Actor&family=Josefin+Sans:wght@400;700&family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Actor&family=Alice&family=Jaldi:wght@400;700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
+        <link rel="icon" type="image/png" href="/images/web-icon.svg"/>
+        
 </head>
 <body>
     <div class="nav-wrapper">
@@ -47,11 +48,13 @@
 
             <div class="right-column">
                 <h1>Your Results:</h1>
-
+                <div id="result">
+                    
+                </div>
             </div>
             
 
-            <div id="result"></div>
+            
         </main>
 
        <script>
@@ -63,7 +66,7 @@ document.getElementById("detect").addEventListener("click", async () => {
     }
 
     const formData = new FormData();
-    formData.append("file", fileInput.files[0]);
+    formData.append("image", fileInput.files[0]);
 
  
     const response = await fetch("http://localhost:5000/predict", {
@@ -77,8 +80,8 @@ document.getElementById("detect").addEventListener("click", async () => {
         document.getElementById("result").innerHTML = `<p style="color:red">${data.error}</p>`;
     } else {
         document.getElementById("result").innerHTML = `
-            <h3>Prediction: ${data.prediction.toUpperCase()}</h3>
-            <p>Confidence: ${(data.confidence*100).toFixed(2)}%</p>
+            <h3>🧪Based on the photo, this could be your skin condition: ${data.prediction.toUpperCase()}</h3>
+            <p>Accuracy: ${(data.confidence).toFixed(2)}%</p>
             <p>Description: ${data.description}</p>
         `;
     }

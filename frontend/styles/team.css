@@ -17,8 +17,8 @@ body {
 }
 
 
-:-webkit-scrollbar {
-  display: none;
+::-webkit-scrollbar {
+    display: none;
 }
 
 .nav-wrapper {
