@@ -158,7 +158,9 @@ line-height: normal;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    border: none;
   width: fit-content;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 
@@ -381,3 +383,4 @@ right: -225px;
 bottom: 95px;
 left: 75px;
 }
+

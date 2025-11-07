@@ -79,3 +79,93 @@ body {
 .main-nav a.active {
     color: #6795c7; 
 }
+
+#heading {
+color: #000;
+font-family: Alice;
+font-size: 35px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin-top: 40px;
+margin-left: 150px;
+text-align: left;
+}
+
+.input-box {
+  width: 402px;
+height: 400px;
+border-radius: 62px;
+background: rgba(141, 195, 231, 0.37);
+}
+
+main{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 150px;
+  margin-top: 50px;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+#upload-icon {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  margin-top: 160px;
+  margin-left: 155px;
+}
+
+#upload-text {
+  position: absolute;
+  text-align: center;
+margin-top: 240px;
+margin-left: 130px;
+ color: #000;
+font-family: Actor;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+
+}
+
+#detect {
+  display: inline-block;
+  padding: 10px 10px;
+  margin-left: 0;
+  background-color: #000;
+  text-decoration: none;
+  color: #FFFAFA;
+  border: none;
+  font-family: Actor;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: fit-content;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#detect:hover {
+  background-color: #6088a5;
+}
+
+
+.right-column h1{
+  color: #000;
+font-family: Kanit;
+font-size: 30px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+position: absolute;
+margin-left: -300px;
+}
