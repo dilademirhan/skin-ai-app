@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from tensorflow.keras.models import load_model
 from PIL import Image
 import numpy as np
-import pickle
+import json
 import os
 from flask_cors import CORS
 
@@ -11,12 +11,29 @@ CORS(app)
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-model_path = os.path.join(script_dir, "my_model.h5")
-label_encoder_path = os.path.join(script_dir, "label_encoder.pkl")
+model_path = os.path.join(script_dir, "skin_cancer_model.keras")
+label_encoder_path = os.path.join(script_dir, "class_indices.json")
 
 model = load_model(model_path, compile=False)
-with open(label_encoder_path, "rb") as f:  
-    label_encoder = pickle.load(f)
+
+with open(label_encoder_path, "r") as f:  
+    loaded_data = json.load(f)
+
+label_encoder = []
+
+if isinstance(loaded_data, list):
+    label_encoder = loaded_data
+elif isinstance(loaded_data, dict):
+    if all(isinstance(v, int) for v in loaded_data.values()):
+        sorted_items = sorted(loaded_data.items(), key=lambda item: item[1])
+        label_encoder = [item[0] for item in sorted_items]
+    else:
+        try:
+            sorted_items = sorted(loaded_data.items(), key=lambda item: int(item[0]))
+            label_encoder = [item[1] for item in sorted_items]
+        except ValueError:
+            label_encoder = list(loaded_data.values())
+
 
 disease_info = {
     "akiec": "Actinic Keratoses — precancerous lesions caused by sun exposure.",
@@ -31,30 +48,30 @@ disease_info = {
 @app.route('/', methods=['GET'])
 def home():
     """
-    Sunucunun çalıştığını test etmek için ana sayfa.
-    Tarayıcıdan http://127.0.0.1:5000/ adresine gidince burası çalışır.
+    Main page to test if the server is running.
+    Accessing http://127.0.0.1:5000/ in a browser will trigger this.
     """
-    return "Skin AI API başarıyla çalışıyor! Tahmin için /predict adresine POST isteği gönderin."
+    return "Skin Cancer Prediction API is running."
 
 @app.route('/predict', methods=['POST'])
 def predict():
     """
-    Görüntüleri alıp tahmin yapan ana API endpoint'i.
+    Main prediction endpoint.
     """
     if 'image' not in request.files:
-        return jsonify({"error": "Görüntü 'image' anahtarıyla gönderilmedi."}), 400
+        return jsonify({"error": "Image not provided with key 'image'."}), 400
 
     file = request.files['image']
     
     try:
-        IMG_SIZE = (96, 96)  
+        IMG_SIZE = (300, 300)  
         img = Image.open(file.stream).convert("RGB").resize(IMG_SIZE)
         
-        img_array = np.array(img) / 255.0
+        img_array = np.array(img)
         img_array = np.expand_dims(img_array, axis=0)  
 
         preds = model.predict(img_array)
-        pred_class_index = np.argmax(preds)
+        pred_class_index = int(np.argmax(preds))
         confidence = float(np.max(preds)) 
 
         class_name = label_encoder[pred_class_index]
@@ -62,12 +79,12 @@ def predict():
         return jsonify({
             "prediction": class_name,
             "confidence": confidence * 100,  
-            "description": disease_info.get(class_name, "Bu hastalık için açıklama bulunamadı."),
+            "description": disease_info.get(class_name, "No description available for this disease."),
             "all_probabilities": {label: float(prob) for label, prob in zip(label_encoder, preds[0])}
         })
 
     except Exception as e:
-        return jsonify({"error": f"Bir hata oluştu: {str(e)}"}), 500
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
