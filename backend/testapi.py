@@ -103,49 +103,38 @@ def predict():
         img_array = np.array(img)        
         processed_img = resnet_preprocess_input(img_array)
         processed_img = np.expand_dims(processed_img, axis=0)
+        
         preds = model.predict(processed_img)
         probabilities = preds[0]
 
-        top_indices = np.argsort(probabilities)[::-1][:2] 
-        top_2_predictions = []
-
+        # Sadece en yüksek olasılığa sahip dizini seç
+        top_index = np.argmax(probabilities) 
         
-        # compile top 2 predictions with descriptions
-        for i in top_indices:
-            short_name = str(label_encoder[i])
-            full_name = FULL_NAME_MAP.get(short_name, short_name)
-            confidence = float(probabilities[i])
-            
-            description = disease_info.get(short_name, "No description available for this disease.")
-            
-            top_2_predictions.append({
-                "class": full_name,
-                "confidence": confidence * 100,
-                "description": description if i == top_indices[0] else None 
-            })
-
-        highest_prediction = top_2_predictions[0]['class']
-        highest_confidence = top_2_predictions[0]['confidence']
+        # En yüksek tahmini derle
+        short_name = str(label_encoder[top_index])
+        full_name = FULL_NAME_MAP.get(short_name, short_name)
+        highest_confidence = float(probabilities[top_index]) * 100
         
-        CONFIDENCE_THRESHOLD = 10.0 
+        # Sadece en yüksek tahmin için açıklamayı al
+        description = disease_info.get(short_name, "No description available for this disease.")
+        
+        CONFIDENCE_THRESHOLD = 50.0 
         if highest_confidence < CONFIDENCE_THRESHOLD:
             final_prediction = "Undetected"
-            final_description = "The accuracy is below the confidence threshold (10%). A lesion couldn't be detected. Please upload a clearer image or consult a dermatologist for accurate diagnosis."
+            final_description = "The accuracy is below the confidence threshold. A lesion couldn't be detected. Please upload a clearer image or consult a dermatologist for accurate diagnosis."
         else:
-            final_prediction = highest_prediction
-            final_description = top_2_predictions[0]['description']
+            final_prediction = full_name
+            final_description = description
         
         return jsonify({
             "final_prediction": final_prediction,
-            "final_confidence": highest_confidence,
+            "confidence": highest_confidence,
             "description": final_description,
-            "top_2_predictions": top_2_predictions, 
             "all_probabilities": {label: float(prob) for label, prob in zip(label_encoder, probabilities)}
         })
 
     except Exception as e:
         return jsonify({"error": f"An unexpected error occurred during prediction: {str(e)}", "type": type(e).__name__}), 500
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000) 
