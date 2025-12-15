@@ -8,6 +8,11 @@
     display: none;
 }
 
+html, body {
+    overflow-x: hidden; 
+  overflow-y: scroll;
+}
+
 html {
     background: linear-gradient(270deg, #8DC3E7 0%, #91F0C6 100%); 
     padding: 60px; 
