@@ -89,6 +89,9 @@ body {
 }
 
 @media (max-width: 900px) {
+    html {
+        padding: 20px 20px; 
+    }
     .main-nav {
         padding: 15px 20px;
     }
