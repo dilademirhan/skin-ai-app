@@ -318,6 +318,9 @@ line-height: 2rem;
         max-width: 700px; 
         height: auto; 
         min-height: 200px;
+         display: flex;
+    justify-content: center;
+    align-items: center;
     }
     
     #result h3 {
@@ -338,8 +341,8 @@ line-height: 2rem;
         width: 20px; 
         height: 20px;
         border-width: 4px; 
-        margin-top: 100px;
-        margin-left: 0; 
+        right: 210px;
+        margin-bottom: 80px;
     }
 
 
