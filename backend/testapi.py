@@ -1,95 +1,141 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
-import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.applications import ResNet50V2
-from tensorflow.keras.applications.resnet_v2 import preprocess_input
+from tensorflow.keras.applications.resnet_v2 import preprocess_input as resnet_preprocess_input
 from tensorflow.keras import layers
 from PIL import Image
 import numpy as np
 import json
 import os
+import tensorflow as tf
+from flask_cors import CORS
 
+# initialize Flask app
 app = Flask(__name__)
+CORS(app)
 
-CORS(
-    app,
-    resources={
-        r"/*": {
-            "origins": [
-                "https://detect-disease.vercel.app"
-            ]
-        }
-    },
-    supports_credentials=True
-)
+# define paths
+script_dir = os.path.dirname(os.path.abspath(__file__))
+weights_path = os.path.join(script_dir, "final_resnet_oversampled_weights.weights.h5")
+label_encoder_path = os.path.join(script_dir, "class_indices.json")
 
-# paths
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-weights_path = os.path.join(BASE_DIR, "final_resnet_oversampled_weights.weights.h5")
-label_encoder_path = os.path.join(BASE_DIR, "class_indices.json")
-
+# define model architecture
 IMG_SIZE = (380, 380)
 NUM_CLASSES = 7
 
-# model
 base_model = ResNet50V2(
     weights=None,
     include_top=False,
-    input_shape=IMG_SIZE + (3,)
+    input_shape=IMG_SIZE + (3,),
 )
-base_model.trainable = False
 
+base_model.trainable = False
 inputs = tf.keras.Input(shape=IMG_SIZE + (3,))
+
 x = base_model(inputs, training=False)
 x = layers.GlobalAveragePooling2D()(x)
 x = layers.Dropout(0.4)(x)
 x = layers.Dense(256, activation='relu')(x)
-outputs = layers.Dense(NUM_CLASSES, activation='softmax')(x)
 
-model = Model(inputs, outputs)
+predictions = layers.Dense(NUM_CLASSES, activation='softmax')(x)
+
+model = Model(inputs=inputs, outputs=predictions)
 model.load_weights(weights_path)
 model.compile(optimizer='adam', loss='categorical_crossentropy')
 
-# labels
+print("Model architecture created. Weights are loading...")
+
+# load weights
+try:
+    model.load_weights(weights_path)
+    print("Model succesfully loaded!")
+except Exception as e:
+    print(f"FATAL ERROR: Weight loading failed! The error is: {e}")
+    print("The weights and architecture DO NOT match. Check Dropout and Dense layer sizes.")
+    raise e 
+
+# load label encoder
 with open(label_encoder_path, "r") as f:
-    data = json.load(f)
+    loaded_data = json.load(f)
 
-label_encoder = [k for k, _ in sorted(data.items(), key=lambda x: x[1])]
+label_encoder = [item[0] for item in sorted(loaded_data.items(), key=lambda item: item[1])]
 
-# routes
-@app.route("/", methods=["GET"])
-def health():
-    return {"status": "API running"}
+if len(label_encoder) != NUM_CLASSES:
+    print(f"WARNING: Num classes ({NUM_CLASSES}) does not match the number of classes in JSON ({len(label_encoder)}).")
+    NUM_CLASSES = len(label_encoder)
 
-@app.route("/predict", methods=["POST", "OPTIONS"])
+# disease information dictionary
+disease_info = {
+    "akiec": "Actinic Keratoses — precancerous lesions caused by sun exposure. May develop into squamous cell carcinoma. Please consult a dermatologist for monitoring and treatment options.",
+    "bcc": "Basal Cell Carcinoma — slow-growing cancer, rarely spreads. Usually appears as a pearly bump. Early treatment is important to prevent tissue damage. Consult a dermatologist for options.",
+    "bkl": "Benign Keratosis-like lesions — non-cancerous skin growths. Generally harmless but should be monitored for changes. If you notice any changes in size, color, or shape, please see a dermatologist.",
+    "df": "Dermatofibroma — benign fibrous skin nodule. Usually harmless but can be removed if bothersome. Consult a dermatologist for evaluation and removal options.",
+    "mel": "Melanoma — dangerous and aggressive skin cancer. Early detection is crucial. If you notice changes in size, shape, or color of a mole, seek immediate medical attention from a dermatologist.",
+    "nv": "Melanocytic Nevi — common mole, usually benign. Monitor for changes in size, color, or shape. If changes occur, consult a dermatologist for evaluation.",
+    "vasc": "Vascular Lesion — benign blood vessel growths. Usually harmless but should be monitored. If you notice changes or symptoms, please see a dermatologist for evaluation."
+}
+
+FULL_NAME_MAP = {
+    "akiec": "Actinic Keratoses",
+    "bcc": "Basal Cell Carcinoma",
+    "bkl": "Benign Keratosis",
+    "df": "Dermatofibroma",
+    "mel": "Melanoma",
+    "nv": "Melanocytic Nevi",
+    "vasc": "Vascular Lesion"
+}
+
+# define routes
+@app.route('/', methods=['GET'])
+def home():
+    return "Skin Cancer Prediction API is running (Functional API - ResNet50V2)!"
+
+# prediction endpoint
+@app.route('/predict', methods=['POST'])
 def predict():
-    if request.method == "OPTIONS":
-        return jsonify({"status": "ok"}), 200
-
-    if "image" not in request.files:
-        return jsonify({"error": "Image not provided"}), 400
-
-    file = request.files["image"]
+    if 'image' not in request.files:
+        return jsonify({"error": "Image not provided with key 'image'."}), 400
+    file = request.files['image']
 
     try:
+        # preprocess image
         img = Image.open(file.stream).convert("RGB").resize(IMG_SIZE)
-        arr = np.expand_dims(preprocess_input(np.array(img)), axis=0)
+        img_array = np.array(img)        
+        processed_img = resnet_preprocess_input(img_array)
+        processed_img = np.expand_dims(processed_img, axis=0)
+        
+        preds = model.predict(processed_img)
+        probabilities = preds[0]
 
-        preds = model.predict(arr)[0]
-        idx = np.argmax(preds)
-
-        confidence = float(preds[idx]) * 100
-        label = label_encoder[idx]
-
+        # Sadece en yüksek olasılığa sahip dizini seç
+        top_index = np.argmax(probabilities) 
+        
+        # En yüksek tahmini derle
+        short_name = str(label_encoder[top_index])
+        full_name = FULL_NAME_MAP.get(short_name, short_name)
+        highest_confidence = float(probabilities[top_index]) * 100
+        
+        # Sadece en yüksek tahmin için açıklamayı al
+        description = disease_info.get(short_name, "No description available for this disease.")
+        
+        CONFIDENCE_THRESHOLD = 50.0 
+        if highest_confidence < CONFIDENCE_THRESHOLD:
+            final_prediction = "Undetected"
+            final_description = "The accuracy is below the confidence threshold. A lesion couldn't be detected. Please upload a clearer image or consult a dermatologist for accurate diagnosis."
+        else:
+            final_prediction = full_name
+            final_description = description
+        
         return jsonify({
-            "final_prediction": label,
-            "confidence": confidence
+            "final_prediction": final_prediction,
+            "confidence": highest_confidence,
+            "description": final_description,
+            "all_probabilities": {label: float(prob) for label, prob in zip(label_encoder, probabilities)}
         })
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": f"An unexpected error occurred during prediction: {str(e)}", "type": type(e).__name__}), 500
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
