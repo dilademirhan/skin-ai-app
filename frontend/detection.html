@@ -97,7 +97,7 @@ document.getElementById("detect").addEventListener("click", async () => {
     formData.append("image", fileInput.files[0]);
 
  
-    const response = await fetch("https://skin-ai-app.onrender.com/predict", {
+    const response = await fetch("https://detect-disease.onrender.com/predict", {
     method: "POST",
     body: formData
 });
